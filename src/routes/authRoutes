@@ -1,0 +1,20 @@
+const express = require("express");
+const path = require("path");
+const { model } = require("mongoose");
+
+const User = model("User");
+const router = express.Router();
+
+router.post("/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = new User({ email, password });
+    await user.save();
+    res.status(201).send("User was created successfuly");
+  } catch (err) {
+    console.error(err.message);
+    return res.status(422).send("There was an error creating the user");
+  }
+});
+
+module.exports = router;
