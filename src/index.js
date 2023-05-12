@@ -1,9 +1,13 @@
 require("dotenv").config();
+require("./models");
 const express = require("express");
-const mongoose = require("mongoose");
+const authRoutes = require("./routes/authRoutes");
 require("./config/database").connect();
 
 const app = express();
+
+app.use(express.json());
+app.use(authRoutes);
 
 app.get("/", (req, res) => {
   res.send("conectado");
