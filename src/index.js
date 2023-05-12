@@ -3,14 +3,15 @@ require("./models");
 const express = require("express");
 const authRoutes = require("./routes/authRoutes");
 require("./config/database").connect();
+const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
 
 app.use(express.json());
 app.use(authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("conectado");
+app.get("/", requireAuth, (req, res) => {
+  res.send(`your email is ${req.user.email}`);
 });
 
 app.listen(3000, () => {
